@@ -1,42 +1,28 @@
-import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2
 
-canister = cv2.imread("IMG_0182.jpg.jpg")
-
-if canister is None:
-    print("Error: Could not load image")
-    exit()
+canister = cv2.imread("soda_bottom.jpg")
 
 gryscl = cv2.cvtColor(canister, cv2.COLOR_BGR2GRAY)
 img = cv2.medianBlur(gryscl, 5)
 
-# Detect circles
 circles = cv2.HoughCircles(
-    img,
+    gryscl,
     cv2.HOUGH_GRADIENT,
-    dp=1,
-    minDist=100,
-    param1=50,
+    dp=1.1,
+    minDist=30,
+    param1=120,
     param2=30,
-    minRadius=30,
-    maxRadius=400
+    minRadius=40,
+    maxRadius=90
 )
 
 if circles is not None:
     circles = np.uint16(np.around(circles))
-
-    # Select ONLY the largest circle (by radius)
-    largest_circle = max(circles[0], key=lambda c: c[2])
-    x, y, r = largest_circle
-
-    # Draw only this one circle
-    cv2.circle(canister, (x, y), r, (0, 255, 0), 3)
-    cv2.circle(canister, (x, y), 4, (0, 0, 255), -1)
-
-    print(f"Detected circle at ({x}, {y}) with radius {r}")
-else:
-    print("No circles detected. Try adjusting parameters.")
+    for x, y, r in circles[0]:
+        cv2.circle(canister, (x, y), r, (0, 255, 0), 2)
+        cv2.circle(canister, (x, y), 4, (0, 0, 255), -1)
 
 frame = cv2.cvtColor(canister, cv2.COLOR_BGR2RGB)
 
