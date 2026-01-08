@@ -5,27 +5,38 @@ from matplotlib import pyplot as plt
 """
 Pseudocode:
 
-read_image() --> The read_image() function is responsiblwe for opening and loading the image file, and it takes the file path 
-of the image as input, reads the image using the imread function, and if the image cannot be read, it raises an error.
+imrreading() --> The imgreading() function is responsible for opening and loading the image file, and it takes the file path 
+of the image as input and reads the image using the imread function. In return, if the image cannot be read, it raises an error.
 
-detect_circle() --> The detect_circle() function detects the largest circle in a grayscale image, and it uses CV'S HoughCircles
-method to find circular objects in the image. It specifically looks for circles that match the width of the soda can, and once it
-identifies potential circles, it picks the largest one based on radius. As a result, it returns the center's (x,y) coordinates and the
+detect_circle() --> The detect_circle() function detects the largest circle in a grayscale image. As a result, it returns the center's (x,y) coordinates and the 
 radius (r) of the best found circle.
 
-main() --> The main function is the runner of the program. Essentially what it does is it reads the image file provided ("soda1.jpg"),
-then determines the width and height of the image. Afterwards, it calls the detect_circle() function in the function which I defined above
-to detect the soda can in the image. If a good circle is found, then it makes a circle using  the cv.circle() function, one in the center and a 
+main() --> The main function is the runner of the program. If a good circle is found, as a result, it then it makes a circle using the cv.circle() function, one in the center and a 
 larger circle for the edges.
 """
 
-def read_image(path):
+#Function definitions / pseudocode resides above.
+
+"""
+imgreading():
+    Parameters:
+    path (str): Path to the image file.
+
+    Returns:
+    np.ndarray: Loaded image in BGR format.
+"""
+def imgreading(path):
     img = cv.imread("sodaCircle.png")
     if img is None:
         raise FileNotFoundError(f"Image not found")
     return img
-
-
+"""
+Parameters:
+    gray (np.ndarray): Grayscale version of the input image. 
+    width (int): Width of the original image (used to scale radius bounds).
+Returns:
+    tuple[int, int, int]: (x, y, r) center coordinates and radius of the detected circle. This uses the circle equation (x-h)^2 + (y-k)^2 = r^2
+"""
 def detect_circle(gray: np.ndarray, width: int):
     circles = cv.HoughCircles(
         cv.GaussianBlur(gray, (9, 9), 2),cv.HOUGH_GRADIENT,dp=1.2,minDist=400,param1=100,param2=50,minRadius=int(width * 0.42),maxRadius=int(width * 0.52))
