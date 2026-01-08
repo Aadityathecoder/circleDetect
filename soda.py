@@ -2,9 +2,25 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 
+"""
+Pseudocode:
 
-def read_image(path: str):
-    img = cv.imread(path)
+read_image() --> The read_image() function is responsiblwe for opening and loading the image file, and it takes the file path 
+of the image as input, reads the image using the imread function, and if the image cannot be read, it raises an error.
+
+detect_circle() --> The detect_circle() function detects the largest circle in a grayscale image, and it uses CV'S HoughCircles
+method to find circular objects in the image. It specifically looks for circles that match the width of the soda can, and once it
+identifies potential circles, it picks the largest one based on radius. As a result, it returns the center's (x,y) coordinates and the
+radius (r) of the best found circle.
+
+main() --> The main function is the runner of the program. Essentially what it does is it reads the image file provided ("soda1.jpg"),
+then determines the width and height of the image. Afterwards, it calls the detect_circle() function in the function which I defined above
+to detect the soda can in the image. If a good circle is found, then it makes a circle using  the cv.circle() function, one in the center and a 
+larger circle for the edges.
+"""
+
+def read_image(path):
+    img = cv.imread("sodaCircle.png")
     if img is None:
         raise FileNotFoundError(f"Image not found")
     return img
@@ -38,7 +54,7 @@ def main():
         return
 
     x, y, r = result
-    cv.circle(canister, (x, y), r, (0, 255, 0), 5) #parentheses is color for both lines
+    cv.circle(canister, (x, y), r, (0, 255, 0), 5) #parentheses is the rgb color for both lines
     cv.circle(canister, (x, y), 5, (0, 0, 255), 9)
 
 # this is the plt (matplotlib section) of my code, other is CV upwards
@@ -51,5 +67,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
