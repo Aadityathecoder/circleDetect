@@ -51,7 +51,7 @@ def detect_circle(gray: np.ndarray, width: int):
     return int(x), int(y), int(r)
 
 def main():
-    canister = read_image("soda1.jpg")
+    canister = imgreading("soda1.jpg")
 
     shape = canister.shape
     h = shape[0]
