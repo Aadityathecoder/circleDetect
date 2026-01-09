@@ -63,12 +63,12 @@ def main():
         return
 
     x, y, r = result
-    cv.circle(canister, (x, y), r, (0, 255, 0), 5) #Parentheses is the rgb color for both lines
+    cv.circle(canister, (x, y), r, (0, 255, 0), 5) #Parentheses is the rgb color for both lines, and for example it is the rgb (0,255,0) inside the circle creation
     cv.circle(canister, (x, y), 5, (0, 0, 255), 9)
 
 # This is the plt (matplotlib section) of my code, other is CV upwards.
     rgb = cv.cvtColor(canister, cv.COLOR_BGR2RGB)
-    plt.figure(figsize=(12, 12))
+    plt.figure(figsize=(10, 10))
     plt.imshow(rgb)
     plt.title("Soda can detection")
     plt.axis("off")
