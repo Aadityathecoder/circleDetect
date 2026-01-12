@@ -25,6 +25,23 @@ imgreading():
     Returns:
     np.ndarray: Loaded image in BGR format.
 """
+
+cap = cv.VideoCapture(0)
+if not cap.isOpened():
+    print("Cannot open camera")
+    exit()
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Can't recieve frame")
+        break
+    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)   
+    cv.imshow('frame', gray)
+    if cv.waitKey(1) == ord('q'):
+        break
+cap.release()
+#--------------------
+
 def imgreading(path):
     img = cv.imread("sodaCircle.png")
     return img
